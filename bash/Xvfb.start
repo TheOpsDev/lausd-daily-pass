@@ -1,2 +1,0 @@
-#!/bin/sh
-/usr/bin/Xvfb :99 -ac &
