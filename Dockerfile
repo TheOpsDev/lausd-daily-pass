@@ -8,6 +8,9 @@ LABEL license="MIT"
 
 RUN mkdir /app
 
-COPY ./python/*.py /app/
+COPY ./python /app/
+COPY ./yaml/*.yaml /app/
+
+WORKDIR /app
 
 CMD ['python', '-h']
