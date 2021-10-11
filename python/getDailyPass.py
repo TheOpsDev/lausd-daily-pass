@@ -5,7 +5,6 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 import yaml
 import time
-import requests
 
 # Create headless firefox session
 try:
@@ -38,3 +37,34 @@ password = creds['lausd_user']['password']
 username_form.send_keys(username)
 password_form.send_keys(password)
 sign_in_btn.click()
+
+# Check if vaccine prompt is shown at login
+try:
+    vaccine_prompt = browser.find_element(By.XPATH, '/html/body/div[2]/div/div/div[3]/button')
+    vaccine_prompt.click()
+except Exception as err:
+    print("No vaccine prompt, continuing execution")
+    print(err)
+
+# click Get Daily Pass button
+get_pass_btn = browser.find_element(By.ID, 'create_pass')
+get_pass_btn.click()
+
+time.sleep(5)
+
+# Select student
+student_btn = browser.find_element(By.XPATH, '/html/body/div[5]/button[2]')
+student_btn.click()
+
+time.sleep(5)
+
+# Provide school information
+school_form = browser.find_element(By.ID, 'facility')
+school_form.send_keys('LORNE STREET ELEMENTRY')
+school_btn = browser.find_element(By.XPATH, '/html/body/form/div[5]/button')
+
+# sympton/contact validation
+symptons_radio_btn = browser.find_element(By.ID, 'anycovid19symptoms_0')
+contact_radio_btn = browser.find_element(By.ID, 'contactwithCOVID19case_0')
+symptons_radio_btn.click()
+contact_radio_btn.click()
