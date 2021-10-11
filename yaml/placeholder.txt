@@ -1,0 +1,8 @@
+! This is a placeholder file that will be ignored !
+
+Within this directory, generate a YAML named 'login.yaml'. This yaml file should contain the required credentials for retrieving the daily pass.
+It should follow this format...
+
+lausd_user:
+  email: test@user.com
+  password: test123

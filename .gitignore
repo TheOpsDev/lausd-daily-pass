@@ -127,3 +127,7 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# yaml fils that will contain credentials
+yaml/*.yaml
+yaml/*.yml
