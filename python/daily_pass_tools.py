@@ -131,4 +131,5 @@ class LausdPass(DailyPass):
             print(f"Unable to grab QR code.\nCurrent location: {self._browserObj.current_url}")
             print(err)      
 
+        print("QR code has been successfully created!")
         self.qr_code = img.get_attribute('src')
