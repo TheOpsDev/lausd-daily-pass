@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
+from yaml import tokens
 from daily_pass_tools import LausdPass
 from twilio.rest import Client
+from bitlyshortener import Shortener
 import yaml
 
 # Retrieve secrets from yaml
@@ -16,9 +18,12 @@ student  = secrets['student']['name']
 school   = secrets['student']['school']
 
 # Grab Twilio information
+twilio_auth_token = secrets['twilio']['authToken']
 account_sid  = secrets['twilio']['accountSID']
-auth_token  = secrets['twilio']['authToken']
 twilio_phone = secrets['twilio']['phone']
+
+# Grab Bitly information
+bitly_auth_token = secrets['bitly']['authToken']
 
 # Create a daily pass object
 daily_pass = LausdPass(school_name=school, student_name=student)
@@ -31,10 +36,15 @@ daily_pass.log_into_pass_site(user=username, password=password)
 daily_pass.create_daily_pass()
 # daily_pass.qr_code
 
+# Generate a Bit.ly link for QR code
+# Required workaround for Twilio's character limit
+bitly = Shortener(tokens=[bitly_auth_token])
+short_url = bitly._shorten_url(daily_pass.qr_code)
+
 # Send QR code using Twilio SMS
 print(f"Sending QR code to... {user_phone}")
-message = f"Daily pass for {student} has been successfully generated. Please follow the link below...\n{daily_pass.qr_code}"
-twilio_client = Client(account_sid, auth_token)
+message = f"Daily pass for {student} has been successfully generated. Please follow the link below...\n{short_url}"
+twilio_client = Client(account_sid, twilio_auth_token)
 twilio_client.messages.create(
     to=user_phone,
     from_=twilio_phone,
