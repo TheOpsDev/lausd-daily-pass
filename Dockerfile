@@ -7,7 +7,6 @@ LABEL maintainer="christian@christian-herrera.com"
 LABEL license="MIT"
 
 RUN mkdir /app
-
 COPY ./python /app/
 COPY ./yaml/*.yaml /app/
 
