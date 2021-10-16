@@ -1,12 +1,18 @@
 ! This is a placeholder file that will be ignored !
 
 Within this directory, generate a YAML named 'login.yaml'. This yaml file should contain the required credentials for retrieving the daily pass.
+Please use the link below to select how to input your mobile number for pass sharing. 
+
+How to send a text message via email
+https://www.digitaltrends.com/mobile/how-to-send-a-text-from-your-email-account/
+
+
 It should follow this format...
 
 user:
   email    : test@user.com
   password : test123
-  mobile   : 12345678910
+  mobile   : 12345678910@mobile.carrier.net
 
 student:
   name   : Jon Snow

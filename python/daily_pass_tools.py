@@ -1,6 +1,5 @@
 from dataclasses import dataclass, field
 from abc import ABC, abstractmethod
-from typing import Dict, List, Tuple
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
@@ -123,13 +122,27 @@ class LausdPass(DailyPass):
         except Exception as err:
             print("Unable to pass sympton/contact checks")
             print(err)
-        
-        try:
-            qr_code = self._browserObj.find_element(By.ID, 'qrcode')
-            img     = qr_code.find_element(By.TAG_NAME, 'img')
-        except Exception as err:
-            print(f"Unable to grab QR code.\nCurrent location: {self._browserObj.current_url}")
-            print(err)      
+    
+    def share_daily_pass(self, phone: str) -> None:
+        """Share daily pass to provided phone number"""
 
-        print("QR code has been successfully created!")
-        self.qr_code = img.get_attribute('src')
+        # This is required to select prior to sharing passing as this element obsecures the share btn. 
+        rtsModal = self._browserObj.find_element(By.ID, 'rtsModal')
+        rtsModal.click()
+
+        # Share pass button
+        share_btn = self._browserObj.find_element(By.XPATH, '/html/body/div[4]/div[5]/a[1]')
+        share_btn.click()
+        time.sleep(3)
+        
+        # select input form for email/phone
+        share_form = self._browserObj.find_element(By.ID, 'msft_recipient')
+        submit_btn = self._browserObj.find_element(By.ID, 'InsertButton')
+
+        # This is required to select prior to sharing passing as this element obsecures the share btn. 
+        rtsModal = self._browserObj.find_element(By.ID, 'rtsModal')
+        rtsModal.click()
+
+        # Input phone and send message
+        share_form.send_keys(phone)
+        submit_btn.click()
